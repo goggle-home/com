@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+</head>
+<body>
+    <h4>Fibonacci</h4>
+    <pre><code class="language-java">
+        public class fib {
+            static int iterSteps(int n) {
+                int num1 = 0, num2 = 1, steps = 2;
+                for (int i = 2; i < n; i++) {
+                    steps++;
+                    int currnum = num1 + num2;
+                    num1 = num2;
+                    num2 = currnum;
+                }
+                System.out.println(n + "th fibonacci number is: " + num2);
+                return steps;
+            }
+            static int resSteps = 0;
+            static int recFib(int n) {
+                resSteps++;
+                if (n <= 1) return n;
+                return (recFib(n - 1) + recFib(n - 2));
+            }
+            public static void main(String[] args) {
+                System.out.println(iterSteps(5));
+                recFib(5);
+                System.out.println(resSteps);
+            }
+        }
+      </code></pre>
+      <br><br>
+    
+      <h4>HuffmanCoding</h4>
+      <pre><code class="language-java">
+        import java.util.*;
+    
+        public class HuffmanCoding {
+            public static void main(String[] args) {
+                Scanner sc = new Scanner(System.in);
+                System.out.print("Enter chars: ");
+                String str= sc.nextLine();
+                System.out.print("Enter frequencies: ");
+                String strFreq= sc.nextLine();
+                
+                String letArray []=str.split(" ");
+                char letters []= new char[letArray.length];
+                String freArray [] = strFreq.split(" "); 
+                int frequency[] = new int[freArray.length];
+                for(int i=0;i<letArray.length;i++){
+                    letters[i]=letArray[i].charAt(0);
+                }
+                for(int i=0;i<freArray.length;i++){
+                    frequency[i]=Integer.parseInt(freArray[i]);
+                }
+                
+                PriorityQueue <Huffman> q = new PriorityQueue<>(letters.length,new MyComparator());
+                
+                for(int i=0;i<letters.length;i++){
+                    Huffman temp= new Huffman();
+                    temp.freq=frequency[i];
+                    temp.c=letters[i];
+                    temp.left=null;
+                    temp.right=null;
+                    q.add(temp);
+                }
+    
+                Huffman root=null;
+                while(q.size()>1){
+                    Huffman min1=q.peek();
+                    q.poll();
+                    Huffman min2=q.peek();
+                    q.poll();
+                    Huffman newNode=new Huffman();
+                    newNode.freq=min1.freq+min2.freq;
+                    newNode.c='-';
+                    newNode.left=min1;
+                    newNode.right=min2;
+    
+                    root=newNode;
+                    q.add(newNode);
+                }
+    
+                printNode(root, "");
+            }
+    
+            static void printNode(Huffman root, String code){
+                if(root.left==null && root.right==null && Character.isLetter(root.c)){
+                    System.out.println(root.c+" : "+code);
+                    return;
+                }
+                printNode(root.left, code+'0');
+                printNode(root.right, code+'1');
+            }
+        }
+    
+        class Huffman{
+            int freq;
+            char c;
+            Huffman left;
+            Huffman right;
+        }
+    
+        class MyComparator implements Comparator<Huffman>{
+            public int compare(Huffman x, Huffman y){
+                return x.freq-y.freq;
+            }
+        }
+      </code></pre>
+
+      <h4>FractionalKnapsack</h4>
+      <pre><code class="language-java">
+        import java.util.*;
+    
+        public class FractionalKnapsack {
+            public static void main(String[] args) {
+                Item arr[] = { 
+                    new Item(10, 4), 
+                    new Item(8, 7), 
+                    new Item(10, 9)
+                };
+    
+                int capacity = 20;
+                System.out.println(getMax(arr, capacity));
+            }
+    
+            static double getMax(Item[] arr, int cap) {
+                Arrays.sort(arr, new Comparator<Item>() {
+                    public int compare(Item x, Item y) {
+                        double fracion1 = (double) x.val / (double) x.wt;
+                        double fracion2 = (double) y.val / (double) y.wt;
+                        if (fracion1 < fracion2) {
+                            return 1;
+                        } else {
+                            return -1;
+                        }
+                    }
+                });
+    
+                double totalVal = 0;
+                for (int i = 0; i < arr.length; i++) {
+                    if (cap - arr[i].wt >= 0) {
+                        cap = cap - arr[i].wt;
+                        totalVal += arr[i].val;
+                    } else {
+                        totalVal += ((double) cap / (double) arr[i].wt) * arr[i].val;
+                        break;
+                    }
+                }
+    
+                return totalVal;
+            }
+        }
+    
+        class Item {
+            int wt, val;
+    
+            Item(int wt, int val) {
+                this.wt = wt;
+                this.val = val;
+            }
+        }
+      </code></pre>
+      <pre><code class="language-java">
+        public class Knapsack01 {
+            public static void main(String[] args) {
+                int value[] = {2, 3, 4, 1};
+                int weight[] = {3, 4, 5, 6};
+                int capacity = 8;
+                int n = value.length;
+                System.out.println(knapsack(capacity, weight, value, n));
+            }
+    
+            static int knapsack(int cap, int[] wt, int[] val, int n) {
+                int dp[][] = new int[n + 1][cap + 1];
+                for (int i = 0; i < n + 1; i++) {
+                    for (int j = 0; j < cap + 1; j++) {
+                        dp[i][j] = -1;
+                    }
+                }
+    
+                return fracKnapsack(cap, wt, val, n, dp);
+            }
+    
+            static int fracKnapsack(int cap, int[] wt, int[] val, int n, int dp[][]) {
+                if (n == 0 || cap == 0) {
+                    return 0;
+                }
+                if (dp[n][cap] != -1) {
+                    return dp[n][cap];
+                }
+                if (wt[n - 1] > cap) {
+                    return dp[n][cap] = fracKnapsack(cap, wt, val, n - 1, dp);
+                } else {
+                    return dp[n][cap] = Math.max(val[n - 1] + fracKnapsack(cap - wt[n - 1], wt, val, n - 1, dp),
+                            fracKnapsack(cap, wt, val, n - 1, dp));
+                }
+            }
+        }
+      </code></pre>
+</body>
+</html>
