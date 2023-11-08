@@ -6,201 +6,458 @@
     <title>home</title>
 </head>
 <body>
-    <h4>Fibonacci</h4>
+    <h4>1.Fibonacci</h4>
     <pre><code class="language-java">
         public class fib {
-            static int iterSteps(int n) {
-                int num1 = 0, num2 = 1, steps = 2;
-                for (int i = 2; i < n; i++) {
-                    steps++;
-                    int currnum = num1 + num2;
-                    num1 = num2;
-                    num2 = currnum;
-                }
-                System.out.println(n + "th fibonacci number is: " + num2);
-                return steps;
-            }
-            static int resSteps = 0;
-            static int recFib(int n) {
-                resSteps++;
-                if (n <= 1) return n;
-                return (recFib(n - 1) + recFib(n - 2));
-            }
-            public static void main(String[] args) {
-                System.out.println(iterSteps(5));
-                recFib(5);
-                System.out.println(resSteps);
-            }
+    static int iterSteps(int n){
+        int num1=0,num2=1,steps=2;
+        for(int i=2;i< n;i++){
+            steps++;
+            int currnum=num1+num2;
+            num1=num2;
+            num2=currnum;
         }
+        System.out.println(n+"th fibonacci number is: "+num2);
+        return steps;
+    }
+    static int resSteps=0;
+    static int recFib(int n){
+        resSteps++;
+        if(n<=1) return n;
+        return(recFib(n-1)+recFib(n-2));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(iterSteps(5));
+        recFib(5);
+        System.out.println(resSteps);
+    }
+}
+
       </code></pre>
       <br><br>
     
-      <h4>HuffmanCoding</h4>
+      <h4>2.HuffmanCoding</h4>
       <pre><code class="language-java">
-        import java.util.*;
-    
-        public class HuffmanCoding {
-            public static void main(String[] args) {
-                Scanner sc = new Scanner(System.in);
-                System.out.print("Enter chars: ");
-                String str= sc.nextLine();
-                System.out.print("Enter frequencies: ");
-                String strFreq= sc.nextLine();
-                
-                String letArray []=str.split(" ");
-                char letters []= new char[letArray.length];
-                String freArray [] = strFreq.split(" "); 
-                int frequency[] = new int[freArray.length];
-                for(int i=0;i<letArray.length;i++){
-                    letters[i]=letArray[i].charAt(0);
-                }
-                for(int i=0;i<freArray.length;i++){
-                    frequency[i]=Integer.parseInt(freArray[i]);
-                }
-                
-                PriorityQueue <Huffman> q = new PriorityQueue<>(letters.length,new MyComparator());
-                
-                for(int i=0;i<letters.length;i++){
-                    Huffman temp= new Huffman();
-                    temp.freq=frequency[i];
-                    temp.c=letters[i];
-                    temp.left=null;
-                    temp.right=null;
-                    q.add(temp);
-                }
-    
-                Huffman root=null;
-                while(q.size()>1){
-                    Huffman min1=q.peek();
-                    q.poll();
-                    Huffman min2=q.peek();
-                    q.poll();
-                    Huffman newNode=new Huffman();
-                    newNode.freq=min1.freq+min2.freq;
-                    newNode.c='-';
-                    newNode.left=min1;
-                    newNode.right=min2;
-    
-                    root=newNode;
-                    q.add(newNode);
-                }
-    
-                printNode(root, "");
-            }
-    
-            static void printNode(Huffman root, String code){
-                if(root.left==null && root.right==null && Character.isLetter(root.c)){
-                    System.out.println(root.c+" : "+code);
-                    return;
-                }
-                printNode(root.left, code+'0');
-                printNode(root.right, code+'1');
-            }
+        
+import java.util.*;
+
+public class HuffmanCoding {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter chars: ");
+        String str= sc.nextLine();
+        System.out.print("Enter frequencies: ");
+        String strFreq= sc.nextLine();
+        
+        String letArray []=str.split(" ");
+        char letters []= new char[letArray.length];
+        String freArray [] = strFreq.split(" "); 
+        int frequency[] = new int[freArray.length];
+        for(int i=0;i< letArray.length;i++){
+            letters[i]=letArray[i].charAt(0);
         }
-    
-        class Huffman{
-            int freq;
-            char c;
-            Huffman left;
-            Huffman right;
+        for(int i=0;i< freArray.length;i++){
+            frequency[i]=Integer.parseInt(freArray[i]);
         }
-    
-        class MyComparator implements Comparator<Huffman>{
-            public int compare(Huffman x, Huffman y){
-                return x.freq-y.freq;
-            }
+        
+        PriorityQueue < Huffman> q = new PriorityQueue<>(letters.length,new MyComparator());
+        
+        for(int i=0;i< letters.length;i++){
+            Huffman temp= new Huffman();
+            temp.freq=frequency[i];
+            temp.c=letters[i];
+            temp.left=null;
+            temp.right=null;
+            q.add(temp);
         }
+
+        Huffman root=null;
+        while(q.size()>1){
+            Huffman min1=q.peek();
+            q.poll();
+            Huffman min2=q.peek();
+            q.poll();
+            Huffman newNode=new Huffman();
+            newNode.freq=min1.freq+min2.freq;
+            newNode.c='-';
+            newNode.left=min1;
+            newNode.right=min2;
+
+            root=newNode;
+            q.add(newNode);
+        }
+
+        printNode(root, "");
+
+    }
+
+    static void printNode(Huffman root, String code){
+        if(root.left==null && root.right==null && Character.isLetter(root.c)){
+            System.out.println(root.c+" : "+code);
+            return;
+        }
+        printNode(root.left, code+'0');
+        printNode(root.right, code+'1');
+    }
+    }
+    class Huffman{
+        int freq;
+        char c;
+        Huffman left;
+        Huffman right;
+    }
+
+    class MyComparator implements Comparator<Huffman>{
+        public int compare(Huffman x, Huffman y){
+            return x.freq-y.freq;
+        }
+    }
       </code></pre>
 
-      <h4>FractionalKnapsack</h4>
+      <h4>3.FractionalKnapsack</h4>
       <pre><code class="language-java">
-        import java.util.*;
-    
-        public class FractionalKnapsack {
-            public static void main(String[] args) {
-                Item arr[] = { 
-                    new Item(10, 4), 
-                    new Item(8, 7), 
-                    new Item(10, 9)
-                };
-    
-                int capacity = 20;
-                System.out.println(getMax(arr, capacity));
-            }
-    
-            static double getMax(Item[] arr, int cap) {
-                Arrays.sort(arr, new Comparator<Item>() {
-                    public int compare(Item x, Item y) {
-                        double fracion1 = (double) x.val / (double) x.wt;
-                        double fracion2 = (double) y.val / (double) y.wt;
-                        if (fracion1 < fracion2) {
-                            return 1;
-                        } else {
-                            return -1;
-                        }
-                    }
-                });
-    
-                double totalVal = 0;
-                for (int i = 0; i < arr.length; i++) {
-                    if (cap - arr[i].wt >= 0) {
-                        cap = cap - arr[i].wt;
-                        totalVal += arr[i].val;
-                    } else {
-                        totalVal += ((double) cap / (double) arr[i].wt) * arr[i].val;
-                        break;
-                    }
+        
+import java.util.*;
+
+public class FractionalKnapsack {
+    public static void main(String[] args) {
+        Item arr[]={ new Item(10, 4), 
+                     new Item(8, 7), 
+                     new Item(10, 9)};
+
+        int capacity=20;
+        System.out.println(getMax(arr,capacity));
+    }
+    static double getMax(Item [] arr,int cap){
+        Arrays.sort(arr, new Comparator< Item>() {
+            public int compare(Item x,Item y){
+                double fracion1 = (double)x.val/(double)x.wt;
+                double fracion2 = (double)y.val/(double)y.wt;
+                if(fracion1< fracion2){
+                    return 1;
                 }
+                else{
+                    return -1;
+                }
+            }
+        });
     
-                return totalVal;
+        double totalVal=0;
+        for(int i=0;i< arr.length;i++){
+            if(cap-arr[i].wt>=0){
+                cap = cap- arr[i].wt;
+                totalVal += arr[i].val;
+            }
+            else{
+                totalVal+= ((double)cap/(double)arr[i].wt) * arr[i].val;
+                break;
             }
         }
-    
-        class Item {
-            int wt, val;
-    
-            Item(int wt, int val) {
-                this.wt = wt;
-                this.val = val;
-            }
+        return totalVal;
+    }
+    }
+
+    class Item{
+        int wt,val;
+        Item(int wt, int val){
+            this.wt=wt;
+            this.val=val;
         }
+    }
+
       </code></pre>
+    
+      h4>4.0/1 Knapsack</h4>
       <pre><code class="language-java">
-        public class Knapsack01 {
-            public static void main(String[] args) {
-                int value[] = {2, 3, 4, 1};
-                int weight[] = {3, 4, 5, 6};
-                int capacity = 8;
-                int n = value.length;
-                System.out.println(knapsack(capacity, weight, value, n));
-            }
-    
-            static int knapsack(int cap, int[] wt, int[] val, int n) {
-                int dp[][] = new int[n + 1][cap + 1];
-                for (int i = 0; i < n + 1; i++) {
-                    for (int j = 0; j < cap + 1; j++) {
-                        dp[i][j] = -1;
-                    }
-                }
-    
-                return fracKnapsack(cap, wt, val, n, dp);
-            }
-    
-            static int fracKnapsack(int cap, int[] wt, int[] val, int n, int dp[][]) {
-                if (n == 0 || cap == 0) {
-                    return 0;
-                }
-                if (dp[n][cap] != -1) {
-                    return dp[n][cap];
-                }
-                if (wt[n - 1] > cap) {
-                    return dp[n][cap] = fracKnapsack(cap, wt, val, n - 1, dp);
-                } else {
-                    return dp[n][cap] = Math.max(val[n - 1] + fracKnapsack(cap - wt[n - 1], wt, val, n - 1, dp),
-                            fracKnapsack(cap, wt, val, n - 1, dp));
-                }
+            
+public class Knapsack01 {
+    public static void main(String[] args) {
+        int value []={2,3,4,1};
+        int weigth []={3,4,5,6};
+        int capacity= 8;
+        int n=value.length;
+        System.out.println(knapsack(capacity,weigth,value,n));
+    }
+
+    static int knapsack(int cap,int [] wt, int [] val, int n){
+        int dp[][]=new int[n+1][cap+1];
+        for (int i = 0; i < n+1; i++) {
+            for (int j = 0; j < cap+1; j++) {
+                dp[i][j]=-1;
             }
         }
-      </code></pre>
+
+        return fracKnapsack(cap,wt,val,n,dp);
+    }
+
+    static int fracKnapsack(int cap,int [] wt, int [] val, int n,int dp[][]){
+        if(n==0 || cap==0){
+            return 0;
+        }
+        if(dp[n][cap] != -1){
+            return dp[n][cap];
+        }
+        if(wt[n-1]>cap){
+            return dp[n][cap]=fracKnapsack(cap, wt, val, n-1, dp);
+        }
+        else{
+            return dp[n][cap]= Math.max(val[n-1]+fracKnapsack(cap-wt[n-1], wt, val, n-1, dp),
+                            fracKnapsack(cap, wt, val, n-1, dp));
+        }
+    }
+    }
+
+        </code></pre>
+
+      <h3>1.Uber Price</h3>
+      <pre><code class="language-python">
+        import pandas as pd
+        import numpy as np
+        import matplotlib.pyplot as plt
+        data = pd.read_csv("uber.csv")
+        df = data.copy()
+        df.head
+        df.info()
+        df["pickup_datetime"] = pd.to_numeric(pd.to_datetime(df["pickup_datetime"]))
+
+        df=df.drop("key",axis=1)
+
+        df.info()
+        df.describe()
+        df.isnull().sum()
+        df.corr()
+        df.dropna(inplace=True)
+        plt.boxplot(df['fare_amount'])
+        q_low = df["fare_amount"].quantile(0.01)
+        q_hi  = df["fare_amount"].quantile(0.99)
+
+        df = df[(df["fare_amount"] < q_hi) & (df["fare_amount"] > q_low)]
+        df.isnull().sum()
+        from sklearn.model_selection import train_test_split
+        #Take x as predictor variable
+        x = df.drop("fare_amount", axis = 1)
+        #And y as target variable
+        y = df['fare_amount']
+
+        x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.2, random_state = 1)
+        from sklearn.linear_model import LinearRegression
+        lrmodel = LinearRegression()
+        lrmodel.fit(x_train, y_train)
+        predict = lrmodel.predict(x_test)
+        print(predict)
+        from sklearn.metrics import mean_squared_error
+        lrmodelrmse = np.sqrt(mean_squared_error(predict, y_test))
+        print("RMSE error for the model is ", lrmodelrmse)
+        from sklearn.ensemble import RandomForestRegressor
+        rfrmodel = RandomForestRegressor(n_estimators = 100, random_state = 101)
+        rfrmodel.fit(x_train, y_train)
+        rfrmodel_pred = rfrmodel.predict(x_test)
+        rfrmodel_rmse = np.sqrt(mean_squared_error(rfrmodel_pred, y_test))
+        print("RMSE value for Random Forest is:",rfrmodel_rmse)</code></pre>
+
+    <h3>2. Email Spam</h3>
+    <pre><code class="language-python">
+        import pandas as pd 
+        from sklearn.model_selection import train_test_split
+        from sklearn.svm import SVC
+        from sklearn.metrics import accuracy_score
+        from sklearn.neighbors import KNeighborsClassifier
+        df = pd.read_csv("./emails.csv")
+        print(df.head())
+        df.isnull().sum()
+        X = df.iloc[:,1:3001]
+        print(X)
+        Y = df.iloc[:,-1].values
+        print(Y)
+        train_x,test_x,train_y,test_y = train_test_split(X,Y,test_size = 0.25)
+        svc = SVC(C=1.0,kernel='rbf',gamma='auto')         
+        # As C increases, model overfits.
+        # Kernel here is the radial basis function kernel.
+        # gamma (only used for rbf kernel) : As gamma increases, model overfits.
+        svc.fit(train_x,train_y)
+        y_pred2 = svc.predict(test_x)
+        print("Accuracy Score for SVC : ", accuracy_score(y_pred2,test_y))
+        X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.2, random_state=42)
+        knn = KNeighborsClassifier(n_neighbors=7)
+        knn.fit(X_train, y_train)
+        y_pred=knn.predict(X_test)
+
+        print("Accuracy Score for KNN : ",knn.score(X_test, y_pred))
+</code></pre>
+
+<h3>3. Bank Customer Neural network</h3>
+<pre><code class="language-python">
+    import numpy as np
+    import matplotlib.pyplot as plt
+    import pandas as pd
+    import seaborn as sns
+    sns.set()
+    dataset = pd.read_csv('./Churn_Modelling.csv', index_col = 'RowNumber')
+    dataset.head()
+    
+    #Customer ID and Surname would not be relevant as features
+    X_columns = dataset.columns.tolist()[2:12]
+    Y_columns = dataset.columns.tolist()[-1:]
+    print(X_columns)
+    print(Y_columns)
+    X = dataset[X_columns].values 
+    Y = dataset[Y_columns].values
+    #We need to encode categorical variables such as geography and gender
+    from sklearn.preprocessing import LabelEncoder
+    X_column_transformer = LabelEncoder()
+    X[:, 1] = X_column_transformer.fit_transform(X[:, 1])
+    #Lets Encode gender now
+    X[:, 2] = X_column_transformer.fit_transform(X[:, 2])
+    # We are treating countries with ordinal values(0 < 1 < 2) but they are incomparable.
+    # To solve this we can use one hot encoding.
+    # We will perform some standardization 
+    from sklearn.preprocessing import StandardScaler, OneHotEncoder
+    from sklearn.compose import ColumnTransformer
+    from sklearn.pipeline import Pipeline
+    
+    pipeline = Pipeline(
+        [
+            ('Categorizer', ColumnTransformer(
+                [
+                    ("Gender Label Encoder", OneHotEncoder(categories = 'auto', drop = 'first'), [2]),
+                    ("Geography Label Encoder", OneHotEncoder(categories = 'auto', drop = 'first'), [1])
+                ], 
+                remainder = 'passthrough', n_jobs = 1)),
+            ('Normalizer', StandardScaler())
+        ]
+    )
+    #Standardize the features
+    X = pipeline.fit_transform(X)
+    #Spilt the data
+    from sklearn.model_selection import train_test_split
+    X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size = 0.2, random_state = 0)
+    #Let us create the Neural Network
+    from keras.models import Sequential
+    from keras.layers import Dense, Dropout
+    #Initialize ANN
+    classifier = Sequential()
+    #Add input layer and hidden layer
+    classifier.add(Dense(6, activation = 'relu', input_shape = (X_train.shape[1], )))
+    classifier.add(Dropout(rate = 0.1))
+    #Add second layer
+    classifier.add(Dense(6, activation = 'relu'))
+    classifier.add(Dropout(rate = 0.1))
+    #Add output layer
+    classifier.add(Dense(1, activation = 'sigmoid'))
+    #Let us take a look at our network
+    classifier.summary()
+    #Optimize the weights
+    classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
+    #Fitting the Neural Network
+    history = classifier.fit(X_train, y_train, batch_size = 32, epochs = 200, validation_split = 0.1, verbose = 2)
+    y_pred = classifier.predict(X_test)
+    print(y_pred[:5])
+    #Let us use confusion matrix with cutoff value as 0.5
+    y_pred = (y_pred > 0.5).astype(int)
+    print(y_pred[:5])
+    #Making the Matrix
+    from sklearn.metrics import confusion_matrix
+    cm = confusion_matrix(y_test, y_pred)
+    print(cm)
+    #Accuracy of our NN
+    print(((cm[0][0] + cm[1][1])* 100) / len(y_test), '% of data was classified correctly')
+    </code> </pre>
+
+    <h3>4. Gradient Descent</h3>
+    <pre><code class="language-python">
+        #Initialize Parameters
+        cur_x = 2
+        rate = 0.01
+        precision = 0.000001
+        previous_step_size = 1
+        max_iters = 1000
+        iters = 0
+        df = lambda x : 2 * (x + 3) #Gradient of our function i.e (x + 3)²
+        #Run a loop to perform gradient Descent
+        while previous_step_size > precision and iters < max_iters:
+            prev_x = cur_x
+            cur_x -= rate * df(prev_x)
+            previous_step_size = abs(prev_x - cur_x)
+            iters += 1
+        print("Local Minima Occurs at :",cur_x)
+        </code></pre>
+    <h2>1. Bank Account contract</h2>
+    <pre><code class="language-solodity">
+        // SPDX-License-Identifier: UNLICENSED
+    pragma solidity >= 0.7.0;
+    // Write  a  smart  contract  on  a  test  network,  for  Bank  account  of  a  customer  for
+      // following operations: Deposit money | Withdraw Money | Show balance
+    contract Bank{
+    mapping(address => uint) public user_account;
+    mapping(address => bool) public user_exist;
+
+    function create_account() public payable returns(string memory){
+        require(user_exist[msg.sender] == false, "Account Already created!");
+        user_account[msg.sender] = msg.value;
+        user_exist[msg.sender] = true;
+        return "Account created";
+    }
+
+    function deposit(uint amount) public payable returns(string memory){
+        require(user_exist[msg.sender] == true, "Account not created!");
+        require(amount > 0, "Amount should be greater than 0");
+        user_account[msg.sender] += amount;
+        return "Amount deposisted sucessfully";
+    }
+
+    function withdraw(uint amount) public payable returns(string memory){
+        require(user_exist[msg.sender] == true, "Account not created!");
+        require(amount > 0, "Amount should be greater than 0");
+        require(user_account[msg.sender] >= amount, "Amount is greater than money deposisted");
+        user_account[msg.sender] -= amount;
+        return "Amount withdrawn sucessfully";    
+    }
+
+    function account_balance() public view returns(uint){
+        return user_account[msg.sender];
+    }
+    
+    function account_exists() public view returns(bool){
+        return user_exist[msg.sender];
+    }
+    }
+    </code></pre>
+    <h2>2. Student data solidity</h2>
+    <pre><code class="language-solodity">
+        // SPDX-License-Identifier: MIT
+    pragma solidity >=0.7.0 < 0.9.0;
+
+    contract StudentManagement {
+        struct Student {
+            int stud_id;
+            string Name;
+            string Department;
+        }
+
+        Student[]  Students; // Make Students array public to allow access
+
+        function addStudent(int stud_id, string memory Name, string memory Department) public {
+            Student memory stud = Student(stud_id, Name, Department);
+            Students.push(stud);
+        }
+
+        function getStudent(int stud_id) public view returns (string memory, string memory) {
+            for (uint i = 0; i < Students.length; i++) {
+                if (Students[i].stud_id == stud_id) {
+                    return (Students[i].Name, Students[i].Department);
+                }
+            }
+            return ("Name Not Found", "Department Not Found");
+        }
+
+        // Receive Ether function to handle incoming Ether
+        receive() external payable {
+            Students.push(Student(7, "XYZ", "Mechanical"));
+        }
+    }
+
+    </code></pre>
+
 </body>
 </html>
